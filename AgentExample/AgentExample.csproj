@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>11ada26d-341e-4b8a-8d9f-89f6f1ba1b73</UserSecretsId>
+	  <NoWarn>SKEXP0042,SKEXP0003,SKEXP0028,SKEXP0011,SKEXP0055,SKEXP0004,SKEXP0101,SKEXP0026,SKEXP0052</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.0.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.0.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Experimental.Agents" Version="1.0.1-alpha" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+		<PackageReference Include="PdfPig" Version="0.1.8" />
+		<PackageReference Include="Tiktoken" Version="1.1.3" />
+	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatComponents\ChatComponents.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+
+		<None Update="Plugins\**\skprompt.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Plugins\**\config.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+
+	</ItemGroup>
+
+</Project>

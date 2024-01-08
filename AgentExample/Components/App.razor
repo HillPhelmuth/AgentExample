@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="AgentExample.styles.css" />
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/standard.css">
+    <link rel="stylesheet" href="_content/ChatComponents/css/chat.css" />
+    <HeadOutlet @rendermode="@InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="@InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script src="js/lib/prism/prism.min.js"></script>
+    <script src="js/lib/prism/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="js/lib/prism/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="js/lib/prism/plugins/show-language/prism-show-language.min.js"></script>
+    <script src="js/lib\prism\plugins\copy-to-clipboard\prism-copy-to-clipboard.js"></script>
+    <script>
+        window.convertHtmlToMarkdown = (id, html) => {
+
+            const turndownService = new TurndownService();
+            turndownService.remove("style");
+            turndownService.remove("script");
+            const result = turndownService.turndown(html);
+            console.log(`html item with id: ${id} converted to markdown.`);
+            return {
+                Id: id,
+                Content: result
+            };
+        }
+    </script>
+    <script>
+        window.addCopyButtons = (element) => {
+            if (!element) {
+                console.log("No element in addCopyButtons");
+                return;
+            }
+
+            Prism.highlightAllUnder(element);
+        }
+    </script>
+    <script>
+        window.downloadFile = async (filename, data) => {
+            const response = new Response(data);
+            const blob = await response.blob();
+
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+    </script>
+    <script>
+        window.scrollToBottom = function (elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }
+
+    </script>
+</body>
+
+</html>

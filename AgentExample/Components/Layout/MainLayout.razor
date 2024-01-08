@@ -1,0 +1,52 @@
+﻿@inherits LayoutComponentBase
+<RadzenLayout>
+    <RadzenHeader>
+        <RadzenRow>
+            <RadzenColumn Size="1">
+                <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
+            </RadzenColumn>
+            <RadzenColumn Size="10">
+                <RadzenText Text="Agent Example" TextStyle="TextStyle.DisplayH5" TextAlign="TextAlign.Center"></RadzenText>
+            </RadzenColumn>
+            <RadzenColumn Size="1">
+                <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block" Path="https://github.com/HillPhelmuth/AdventuresInSemanticKernel" Target="_blank">
+                    <RadzenImage Style="width:32px; height:32px" Path="github-mark.svg"></RadzenImage>
+                </RadzenLink>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" Variant="Variant.Text" Text="Reset Chat" Click="Reset"></RadzenButton>
+        <RadzenCard>
+            <RadzenText TextStyle="TextStyle.Body2">
+                Uses standard chat orchestrator with no assistants. Agents consist of one or more 'native' (C# code) or 'semantic' (LLMs) Plugins
+            </RadzenText>
+        </RadzenCard>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Agents" >
+                @foreach (var agent in _activePlugins)
+                {
+                    <RadzenPanelMenuItem Text="@($"{agent.Name} Agent")">
+                        <RadzenPanelMenuItem/>
+                        <RadzenCard Style="padding:.5rem">
+                            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Subtitle2">Plugin Functions</RadzenText>
+                            @foreach (var function in agent)
+                            {
+                            <RadzenText TextStyle="TextStyle.Caption"><strong>@function.Name</strong> -> @function.Description</RadzenText><br />
+                            }
+                        </RadzenCard>
+                    </RadzenPanelMenuItem>
+                }
+            </RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+    <RadzenBody>
+        @Body
+
+        <div id="blazor-error-ui">
+            An unhandled error has occurred.
+            <a href="" class="reload">Reload</a>
+            <a class="dismiss">🗙</a>
+        </div>
+    </RadzenBody>
+</RadzenLayout>
