@@ -16,6 +16,10 @@
 		<EmbeddedResource Remove="Data\**" />
 		<None Remove="Data\**" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="Plugins\ExternalServiceExamplePlugin\openapi.json" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Docker.DotNet" Version="3.125.15" />
 		<PackageReference Include="Markdig" Version="0.35.0" />
@@ -33,6 +37,11 @@
 	<ItemGroup>
 	  <Folder Include="Components\Agents\" />
 	  <Folder Include="Models\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Plugins\ExternalServiceExamplePlugin\openapi.json">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
