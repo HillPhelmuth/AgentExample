@@ -1,18 +1,17 @@
 ﻿@using AutoGenDotNet
 <CascadingValue Value="@PageTitle" Name="PageTitle">
-    <CascadingValue Value="@_agentGroupInfo" Name="AgentGroupInfo">
-        <Router AppAssembly="@typeof(Program).Assembly" OnNavigateAsync="HandleNav">
-            <Found Context="routeData">
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
-                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-            </Found>
-        </Router>
-    </CascadingValue>
+
+    <Router AppAssembly="@typeof(Program).Assembly" OnNavigateAsync="HandleNav">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+    </Router>
+
 </CascadingValue>
 
-@code{
+@code {
     public string PageTitle { get; set; } = "Home";
-    public AgentGroupInfo? _agentGroupInfo;
     private void HandleNav(NavigationContext navigationContext)
     {
         var path = navigationContext.Path;
