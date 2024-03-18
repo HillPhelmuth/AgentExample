@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AutoGen.Core</RootNamespace>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <NoWarn>SKEXP0001,SKEXP0010,SKEXP0020,SKEXP0030,SKEXP0040,SKEXP0050,SKEXP0060,SKEXP0070,SKEXP0080,SKEXP0090,SKEXP0100</NoWarn>
+	   <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+ <!--<Import Project="$(RepoRoot)/dotnet/nuget/nuget-package.props" />-->
+
+  <PropertyGroup>
+    <!-- NuGet Package Settings -->
+    <Title>AutoGen.Core</Title>
+    <Description>
+      Core library for AutoGen. This package provides contracts and core functionalities for AutoGen.
+    </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JsonSchema.Net.Generation" Version="4.1.1" />
+  </ItemGroup>
+
+</Project>

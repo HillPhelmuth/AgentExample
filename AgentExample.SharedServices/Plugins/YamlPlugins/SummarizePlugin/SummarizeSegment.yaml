@@ -1,0 +1,36 @@
+description: Summarize given text or any text document in segments using previous summaries as context.
+execution_settings:
+  default:
+    max_tokens: 1024
+    temperature: 0.8
+    top_p: 1.0
+    presence_penalty: 0.0
+    frequency_penalty: 0.0
+input_variables:
+- name: input
+  description: Text to summarize
+  default: ''
+- name: summarySoFar
+  description: Summary so far
+  default: ''
+name: SummarizeSegment
+template: |
+ ## Summarization Task
+
+ Your task is to provide a succinct summary of the provided text. Ensure your summary captures all crucial points, concepts, and meanings derived from the original content. The summary should be both concise and comprehensive, encapsulating the essential elements while preserving the original text's intent, tone, and overarching message.
+
+ ## Process
+
+ Approach the summarization sequentially, considering any prior summaries as context for coherence and consistency. This process will allow for a fluid and integrated summary that accurately reflects the entirety of the original text.
+
+ ### Existing Summaries
+
+ Previous summaries are provided below for context
+
+ {{$summarySoFar}}
+
+ ### Current Text Segment
+
+ Your focus for this task:
+
+ {{$input}}

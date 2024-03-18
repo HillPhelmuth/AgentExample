@@ -1,0 +1,11 @@
+﻿@if (!string.IsNullOrEmpty(_summary))
+{
+    <div class="blinking-input">
+        <RadzenButton Size="ButtonSize.ExtraSmall" Click="ShowSummary" Text="Summary"></RadzenButton>
+    </div>
+}
+<RadzenCard>
+    <ChatView Height="70vh" ResetOnClose="false" @ref=_chatView></ChatView>
+</RadzenCard>
+
+<UserInput ButtonLabel="Send" HelperText="User Input" CssClass="@_css" UserInputSubmit="HandleChatInput" IsBusy="_isBusy" UserInputType="UserInputType.Chat" CancelRequest="Cancel"></UserInput>

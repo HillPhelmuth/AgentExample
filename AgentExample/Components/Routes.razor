@@ -1,6 +1,31 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-</Router>
+﻿@using AutoGenDotNet
+<CascadingValue Value="@PageTitle" Name="PageTitle">
+    <CascadingValue Value="@_agentGroupInfo" Name="AgentGroupInfo">
+        <Router AppAssembly="@typeof(Program).Assembly" OnNavigateAsync="HandleNav">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </Found>
+        </Router>
+    </CascadingValue>
+</CascadingValue>
+
+@code{
+    public string PageTitle { get; set; } = "Home";
+    public AgentGroupInfo? _agentGroupInfo;
+    private void HandleNav(NavigationContext navigationContext)
+    {
+        var path = navigationContext.Path;
+        Console.WriteLine($"Path: {path}");
+        PageTitle = path switch
+        {
+            "essaywriter" => "Essay Research/Writer - Hierarchical Group",
+            "groupChat" => "Party Time! - Dynamic Group",
+            "interactive" => "Engineering Team - Transition Graph Group",
+            "simple" => "Tax Helper - Simple Nested Agent Chat",
+            "formbuilder" => "Form Builder - Round-robin Group",
+            _ => "Home"
+        };
+        StateHasChanged();
+    }
+}

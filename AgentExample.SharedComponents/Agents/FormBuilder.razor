@@ -1,0 +1,89 @@
+﻿@using AgentExample.SharedServices.Plugins.FormPlugin
+<RadzenRow>
+
+    <RadzenColumn Size="4">
+        <RadzenButton Text="Populate Form" Click="Start" IsBusy=_isBusy BusyText="Populating..."></RadzenButton>
+        <RadzenTemplateForm TItem="FakeForm" Data="_fakeForm">
+            <RadzenFormField Text="@(nameof(FakeForm.FirstName))">
+                <ChildContent>
+                    <RadzenTextBox Name="FirstName" @bind-Value=_fakeForm.FirstName></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="FirstName" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="@(nameof(FakeForm.LastName))">
+                <ChildContent>
+                    <RadzenTextBox Name="LastName" @bind-Value=_fakeForm.LastName></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="LastName" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField><br />
+            <RadzenFormField Text="@(nameof(FakeForm.Phone))">
+                <ChildContent>
+                    <RadzenTextBox Name="Phone" @bind-Value=_fakeForm.Phone></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Phone" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="@(nameof(FakeForm.Email))">
+                <ChildContent>
+                    <RadzenTextBox Name="Email" @bind-Value=_fakeForm.Email></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Email" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField><br />
+            <RadzenFormField Text="@(nameof(FakeForm.StreetAddress))" Style="width:100%">
+                <ChildContent>
+                    <RadzenTextBox Name="StreetAddress" @bind-Value=_fakeForm.StreetAddress Style="width:100%"></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="StreetAddress" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField><br />
+            <RadzenFormField Text="@(nameof(FakeForm.City))" Style="width:50%">
+                <ChildContent>
+                    <RadzenTextBox Name="City" @bind-Value=_fakeForm.City></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="City" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="ST" Style="width:20%">
+                <ChildContent>
+                    <RadzenTextBox Name="State" @bind-Value=_fakeForm.State></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="State" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="Zip" Style="width:30%">
+                <ChildContent>
+                    <RadzenTextBox Name="Zip" @bind-Value=_fakeForm.Zip></RadzenTextBox>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Zip" Popup=true Style="position:absolute"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField><br />
+            <RadzenLabel>
+                <RadzenCheckBox @bind-Value=_fakeForm.GetUpdates /> Receive Updates?
+            </RadzenLabel>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+    <RadzenColumn Size="8">
+        @if (!string.IsNullOrEmpty(_summary))
+        {
+            <div class="blinking-input">
+                <RadzenButton Size="ButtonSize.ExtraSmall" Click="ShowSummary" Text="Summary"></RadzenButton>
+            </div>
+        }
+        <RadzenCard>
+            <ChatView Height="70vh" ResetOnClose="false" @ref=_chatView></ChatView>
+        </RadzenCard>
+
+       @*  <UserInput ButtonLabel="Send" HelperText="User Input" CssClass="@_css" UserInputSubmit="HandleChatInput" IsBusy="_isBusy" UserInputType="UserInputType.Chat" CancelRequest="Cancel"></UserInput> *@
+    </RadzenColumn>
+</RadzenRow>

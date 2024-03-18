@@ -6,10 +6,10 @@
                 <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
             </RadzenColumn>
             <RadzenColumn Size="10">
-                <RadzenText Text="Agent Example" TextStyle="TextStyle.DisplayH5" TextAlign="TextAlign.Center"></RadzenText>
+                <RadzenText Style="margin-top:.5rem" Text="@PageTitle" TextStyle="TextStyle.DisplayH6" TextAlign="TextAlign.Center"></RadzenText>
             </RadzenColumn>
             <RadzenColumn Size="1">
-                <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block" Path="https://github.com/HillPhelmuth/AgentExample" Target="_blank">
+                <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block;margin-top:.5rem" Path="https://github.com/HillPhelmuth/AgentExample" Target="_blank">
                     <RadzenImage Style="width:32px; height:32px" Path="github-mark.svg"></RadzenImage>
                 </RadzenLink>
             </RadzenColumn>
@@ -17,22 +17,33 @@
     </RadzenHeader>
     <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
         <RadzenButton ButtonStyle="ButtonStyle.Secondary" Variant="Variant.Text" Text="Reset Chat" Click="Reset"></RadzenButton>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Path="" Icon="home"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="SK Simple Agent Chat" Path="simple" Icon="chat"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="AutoGen Group Chat" Path="groupChat" Icon="groups"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="AutoGen Code Project" Path="interactive" Icon="code"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="AutoGen + SK Writer" Path="essaywriter" Icon="edit_document"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="AutoGen + SK FormBuilder" Path="formbuilder" Icon="checklist"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Awesome SK Readme" Path="awesome-sk" Icon="code"></RadzenPanelMenuItem>
+        </RadzenPanelMenu>
         <RadzenCard>
             <RadzenText TextStyle="TextStyle.Body2">
                 Uses standard chat orchestrator with no assistants. Agents consist of one or more 'native' (C# code) or 'semantic' (LLMs) Plugins
             </RadzenText>
         </RadzenCard>
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="Agents" >
+            <RadzenPanelMenuItem Text="Agents">
                 @foreach (var agent in _activePlugins)
                 {
                     <RadzenPanelMenuItem Text="@($"{agent.Name} Agent")">
-                        <RadzenPanelMenuItem/>
+                        <RadzenPanelMenuItem />
                         <RadzenCard Style="padding:.5rem">
-                            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Subtitle2">Plugin Functions</RadzenText>
+                            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Subtitle2">Available Functions</RadzenText>
                             @foreach (var function in agent)
                             {
-                            <RadzenText TextStyle="TextStyle.Caption"><strong>@function.Name</strong> -> @function.Description</RadzenText><br />
+                                <RadzenText TextStyle="TextStyle.Caption"><strong>@function.Name</strong> -> @function.Description</RadzenText>
+
+                                <br />
                             }
                         </RadzenCard>
                     </RadzenPanelMenuItem>
@@ -50,3 +61,4 @@
         </div>
     </RadzenBody>
 </RadzenLayout>
+<RadzenDialog />

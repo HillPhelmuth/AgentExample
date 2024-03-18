@@ -1,0 +1,19 @@
+﻿@page "/groupChat"
+
+<PageTitle>Group Chat</PageTitle>
+<RadzenSteps @bind-SelectedIndex="@_stepIndex" ShowStepsButtons=false>
+    <Steps>
+        <RadzenStepsItem Text="Select Group" >
+            <Template>
+                <RadzenIcon Icon="code"></RadzenIcon>
+            </Template>
+            <ChildContent>
+                <RadzenText TextStyle="TextStyle.Subtitle2" Text="Select Personas for the party"></RadzenText>
+                <SelectPersonas PersonasSelected="HandlePersonasSelected"></SelectPersonas>
+            </ChildContent>
+        </RadzenStepsItem>
+        <RadzenStepsItem Text="Group Chat">
+            <GroupChat></GroupChat>
+        </RadzenStepsItem>
+    </Steps>
+</RadzenSteps>

@@ -1,0 +1,35 @@
+Analyze the provided text excerpt and identify the key topics. Follow these guidelines for your analysis:
+
+- Focus on Essential Topics: Only include topics of significant importance.
+- Brevity is Key: Use short, succinct phrases. Full sentences are not required.
+- Simplicity in Language: It's acceptable to use simplified or broken English for clarity.
+- Conciseness: Ensure the response is compact, emphasizing conciseness.
+- Relevant Topics: Topics may encompass important names, events, or elements you find crucial for recall.
+- Format Requirement: Responses should be brief phrases, avoiding long sentences.
+- Output Format: Please present the key topics in JSON format, under the "topics" array.
+Example:
+
+[Input]
+"My name is Macbeth. I used to be King of Scotland, but I died. My wife's name is Lady Macbeth and we were married for 15 years. We had no children. Our beloved dog Toby McDuff was a famous hunter of rats in the forest. My tragic story was immortalized by Shakespeare in a play."
+
+[Output]
+
+```json
+{
+  "topics": [
+    "Macbeth",
+    "King of Scotland",
+    "Lady Macbeth",
+    "Dog",
+    "Toby McDuff",
+    "Shakespeare",
+    "Play",
+    "Tragedy"
+  ]
+}
+```
+[Input]
+{{$input}}
+
+[Output]
+

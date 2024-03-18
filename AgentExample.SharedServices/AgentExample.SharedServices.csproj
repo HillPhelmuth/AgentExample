@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>SKEXP0001,SKEXP0010,SKEXP0020,SKEXP0030,SKEXP0040,SKEXP0050,SKEXP0060,SKEXP0070,SKEXP0080,SKEXP0090,SKEXP0100</NoWarn>
+		 <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="Plugins\**\config.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Plugins\**\*.yaml" />
+		<EmbeddedResource Include="Plugins\**\*-openapi.json"></EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="Plugins\YamlPlugins\SummarizePlugin\QueryNoteGen.yaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="pluginFunctions.json" />
+		<None Remove="Plugins\Medium-openapi.json" />
+		<None Remove="Plugins\Video-openapi.json" />
+		<None Remove="Plugins\YamlPlugins\SummarizePlugin\QueryNoteGen.yaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="pluginFunctions.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.6.2" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Pinecone" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Document" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.6.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.6.1" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+		<PackageReference Include="Tiktoken" Version="1.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\AutoGenPort\AutoGen.Core\AutoGen.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Plugins\**\skprompt.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Plugins\**\*openapi.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

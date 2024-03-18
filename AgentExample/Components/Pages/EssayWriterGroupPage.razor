@@ -1,0 +1,18 @@
+﻿@page "/essaywriter"
+<PageTitle>Essay Writer</PageTitle>
+<RadzenSteps @bind-SelectedIndex=_step ShowStepsButtons=false>
+    <Steps>
+        <RadzenStepsItem>
+            <RadzenRow>
+                <RadzenColumn Size="6">
+                    <RadzenText Text="Select Group" TextStyle="TextStyle.Subtitle2"></RadzenText>
+                    <RadzenButton Click="Next" Text="Start" Size="ButtonSize.Small"></RadzenButton>
+                    <RadzenImage Path="images/EssayWritingTransitions.png"></RadzenImage>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenStepsItem>
+        <RadzenStepsItem>
+            <GroupChat GroupChatType="GroupChatType.EssayWriter"></GroupChat>
+        </RadzenStepsItem>
+    </Steps>
+</RadzenSteps>

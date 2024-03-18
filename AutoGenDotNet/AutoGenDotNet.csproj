@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>SKEXP0001,SKEXP0010,SKEXP0020,SKEXP0030,SKEXP0040,SKEXP0050,SKEXP0060,SKEXP0070,SKEXP0080,SKEXP0090,SKEXP0100</NoWarn>
+		 <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="PremadePersonas.json" />
+	  <None Remove="StandardSystemPromptTemplate.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="PremadePersonas.json" />
+	  <EmbeddedResource Include="StandardSystemPromptTemplate.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AbotX" Version="2.1.12" />
+		<PackageReference Include="Docker.DotNet" Version="3.125.15" />
+		<PackageReference Include="Google.Apis.YouTube.v3" Version="1.67.0.3351" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+		<PackageReference Include="ReverseMarkdown" Version="4.3.0" />
+		<PackageReference Include="Tiktoken" Version="1.2.0" />
+				
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\AgentExample.SharedServices\AgentExample.SharedServices.csproj" />
+	  <ProjectReference Include="..\AutoGenPort\AutoGen.DotnetInteractive\AutoGen.DotnetInteractive.csproj" />
+	  <ProjectReference Include="..\AutoGenPort\AutoGen\AutoGen.csproj" />
+	</ItemGroup>
+
+</Project>

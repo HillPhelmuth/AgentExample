@@ -17,6 +17,7 @@ namespace ChatComponents
         //[Inject]
         private AppJsInterop AppJsInterop { get; set; } = default!;
         [Parameter] public string Height { get; set; } = "60vh";
+       
         [Parameter] public bool ResetOnClose { get; set; } = true;
 
         /// <summary>
@@ -27,7 +28,8 @@ namespace ChatComponents
         public string ViewId { get; set; } = "";
 
         private bool _generatedViewId;
-
+        private string _fontSize = "1rem";
+        private string _lineHeight = "1.5rem";
         [Inject] private IJSRuntime JsRuntime { get; set; } = default!;
 
         protected override Task OnParametersSetAsync()

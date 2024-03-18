@@ -1,0 +1,9 @@
+﻿@page "/awesome-sk"
+
+<RadzenRow>
+    <RadzenColumn>
+        <RadzenCard Style="max-height:80vh; overflow:auto">
+            @((MarkupString)ConvertToHtml(_markdownString))
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>

@@ -1,8 +1,11 @@
 using AgentExample;
 using AgentExample.Components;
-using AgentExample.Services;
+using AgentExample.SharedServices;
+using AgentExample.SharedServices.Services;
+using AutoGenDotNet;
 using ChatComponents;
 using Radzen;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 services.AddRazorComponents()
     .AddInteractiveServerComponents();
-services.AddScoped<AgentRunnerService>();
+services.AddScoped<SkAgentRunnerService>();
 services.AddChat();
 services.AddRadzenComponents();
+services.AddAutoGenService();
+services.AddHttpClient();
+services.AddSingleton<StringEventWriter>();
 var config = builder.Configuration;
 var app = builder.Build();
 TestConfiguration.Initialize(config);
@@ -33,3 +39,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+namespace AgentExample
+{
+}

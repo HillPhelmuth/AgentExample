@@ -1,0 +1,36 @@
+﻿@using AutoGenDotNet.Models
+@using AutoGenDotNet.Models.Helpers
+
+<RadzenRow>
+    <RadzenColumn Size="8">
+        <RadzenDataGrid Data="_personas" TItem="BotModel" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="15" ShowPagingSummary="true" AllowSorting="true" Density="Density.Compact">
+            <Columns>
+                <RadzenDataGridColumn TItem="BotModel" Property="Name" Title="Name" Width="15%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BotModel" Property="Personality" Title="Primary" Width="15%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BotModel" Property="SecondaryPersonality" Title="Secondary" Width="15%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BotModel" Property="Description" Title="Description" Width="50%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BotModel" Width="5%">
+                    <Template Context="bot">
+                        <RadzenButton Size="ButtonSize.ExtraSmall" Icon="add_task" Click="@(() => AddPersona(bot))"></RadzenButton>
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+    <RadzenColumn Size="4">
+        <RadzenText Text="Selected Personas" TextAlign="TextAlign.Center" TextStyle="TextStyle.H6"></RadzenText>
+        <RadzenButton Size="ButtonSize.Small" Click="CompleteSelection" Icon="playlist_add_check" Text="Go to chat"></RadzenButton>
+        @* <RadzenButton Size="ButtonSize.Small" Text="Dotnet Interactive" Click="RunDotnet"></RadzenButton> *@
+        <RadzenCard Style="max-height:50vh; overflow:auto">
+            @foreach (var bot in _selectedPersonas)
+            {
+                <RadzenCard Style="padding-top:1px;padding-bottom:1px">
+                    <RadzenText Text="@($"Name: {bot.Name}")" TextStyle="TextStyle.Subtitle2"></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Caption">Primary Trait: @bot.Personality.ToString() - @bot.Personality.ToDescription()</RadzenText><br />
+                    <RadzenText TextStyle="TextStyle.Caption">Secondary Trait: @bot.SecondaryPersonality.ToString() - @bot.SecondaryPersonality.ToDescription()</RadzenText>
+                    <RadzenButton Size="ButtonSize.ExtraSmall" Icon="remove_circle_outline" Text="Remove" Click="@(() => RemovePersona(bot))"></RadzenButton>
+                </RadzenCard>
+            }
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>

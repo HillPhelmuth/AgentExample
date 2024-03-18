@@ -9,7 +9,8 @@
 }
 
 .assistant {
-    background: radial-gradient(circle, black, #3c2206, #181000, #000000);
+    /*background: radial-gradient(circle, black, #3c2206, #181000, #000000);*/
+    background-color: #00004d;
     background-size: 50% 50%;
     color: white;
     width: 93%;
@@ -19,3 +20,28 @@
 .assistant h1, .assistant h2, .assistant h3, .assistant h4, .assistant h5 {
     color: white !important;
 }
+/*@keyframes blink {
+    0%, 100% {
+        outline-color: rgba(0, 255, 0, 0);*/ /* Transparent outline */
+    /*}
+
+    50% {
+        outline-color: green;*/ /* Solid green outline */
+    /*}
+}
+
+::deep .blinking-input {
+    border: 1px solid #ccc;*/ /* Basic border for the text box */
+    /*padding: 8px;*/ /* Padding for aesthetics */
+    /*outline: 2px solid green;*/ /* Initial green outline */
+    /*animation: blink 1s infinite;*/ /* Apply the blinking effect */
+    /*box-shadow: 0px 0px 8px rgba(0, 128, 0, 0.75);*/ /* More pronounced shadow */
+/*}*/
+
+/* Optional: Adjust the text box appearance when it is focused */
+/*::deep .blinking-input:focus {
+    border-color: green;
+    outline-color: green;*/ /* Keep the outline green when focused */
+    /*box-shadow: 0px 0px 5px rgba(0, 128, 0, 0.5);*/ /* Subtle green shadow */
+    /*animation: none;*/ /* Remove the blinking effect */
+/*}*/

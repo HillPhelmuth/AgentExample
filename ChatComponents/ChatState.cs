@@ -33,9 +33,22 @@ namespace ChatComponents
 
         public void UpdateAssistantMessage(string token)
         {
-            var message = ChatMessages.Last(x => x.Role == Role.Assistant).Content += token;
+            ChatMessages.Last(x => x.Role == Role.Assistant).Content += token;
             ChatHistory.Last(x => x.Role == AuthorRole.Assistant).Content += token;
             MessagePropertyChanged();
+            MessagePropertyChanged();
+        }
+        public void UpsertAssisantMessage(string message)
+        {
+            var lastRole = ChatMessages.LastOrDefault()?.Role ?? Role.User;
+            if (lastRole== Role.Assistant)
+            {
+                UpdateAssistantMessage(message);
+            }
+            else
+            {
+                AddAssistantMessage(message);
+            }
         }
         private void MessagePropertyChanged()
         {

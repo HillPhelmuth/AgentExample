@@ -1,0 +1,144 @@
+[
+  {
+    "Plugin": "CalendarPlugin",
+    "Functions": [
+      "AssistantShowCalendarEvents"
+    ]
+  },
+  {
+    "Plugin": "ChatPlugin",
+    "Functions": [
+      "Chat",
+      "ChatFilter",
+      "ChatGPT",
+      "ChatV2"
+    ]
+  },
+  {
+    "Plugin": "ChildrensBookPlugin",
+    "Functions": [
+      "BookIdeas",
+      "CreateBook"
+    ]
+  },
+  {
+    "Plugin": "CitationsPlugin",
+    "Functions": [
+      "CiteWeb"
+    ]
+  },
+  {
+    "Plugin": "ClassificationPlugin",
+    "Functions": [
+      "Importance",
+      "Question"
+    ]
+  },
+  {
+    "Plugin": "CodeInterpreterPlugin",
+    "Functions": [
+      "CodeInterpreter"
+    ]
+  },
+  {
+    "Plugin": "CodingPlugin",
+    "Functions": [
+      "Code",
+      "CodeCSharp",
+      "CodePython",
+      "CommandLinePython",
+      "CSharpScript",
+      "DOSScript",
+      "EmailSearch",
+      "Entity",
+      "JsonToCSharpCode"
+    ]
+  },
+  {
+    "Plugin": "DndApiPlugin",
+    "Functions": [
+      "GenerateCharacter",
+      "ParseCharacterInfo"
+    ]
+  },
+  {
+    "Plugin": "EvalPlugin",
+    "Functions": [
+      "SqlQueryEval"
+    ]
+  },
+  {
+    "Plugin": "FunPlugin",
+    "Functions": [
+      "Excuses",
+      "Joke",
+      "Limerick"
+    ]
+  },
+  {
+    "Plugin": "GroundingPlugin",
+    "Functions": [
+      "ExciseEntities",
+      "ExtractEntities",
+      "ReferenceCheckEntities"
+    ]
+  },
+  {
+    "Plugin": "IntentDetectionPlugin",
+    "Functions": [
+      "AssistantIntent",
+      "GenericIntent"
+    ]
+  },
+  {
+    "Plugin": "MiscPlugin",
+    "Functions": [
+      "Continue",
+      "ElementAtIndex",
+      "TopItems"
+    ]
+  },
+  {
+    "Plugin": "QAPlugin",
+    "Functions": [
+      "AssistantResults",
+      "ContextQuery",
+      "Form",
+      "QNA",
+      "Question"
+    ]
+  },
+  {
+    "Plugin": "SummarizePlugin",
+    "Functions": [
+      "MakeAbstractReadable",
+      "Notegen",
+      "Summarize",
+      "SummarizeSegment",
+      "Topics"
+    ]
+  },
+  {
+    "Plugin": "WriterPlugin",
+    "Functions": [
+      "Acronym",
+      "AcronymGenerator",
+      "AcronymReverse",
+      "Brainstorm",
+      "EmailTo",
+      "MonsterGen",
+      "NovelChapter",
+      "NovelChapterWithNotes",
+      "NovelOutline",
+      "Rewrite",
+      "ShortPoem",
+      "ShortStory",
+      "StoryGen",
+      "TellMeMore",
+      "TitleGen",
+      "Translate",
+      "TranslateV2",
+      "TwoSentenceSummary"
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+﻿<RadzenRow>
+    <RadzenColumn>
+        <RadzenCard>
+            <ChatView Height="75vh" ResetOnClose="false" ViewId="plannerChat" @ref=_chatView></ChatView>
+        </RadzenCard>
+
+        <UserInput ButtonLabel="Send" HelperText="User Input" UserInputSubmit="HandleChatInput" IsBusy="_isBusy" UserInputType="UserInputType.Chat" CancelRequest="Cancel"></UserInput>
+    </RadzenColumn>
+</RadzenRow>

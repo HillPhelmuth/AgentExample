@@ -1,0 +1,5 @@
+Please summarize the following text, ensuring that all key points, concepts, and meanings from the original are retained in the summary. The summary should be concise yet comprehensive, covering all essential elements without omitting any significant details or nuances. Aim to compress the information into a shorter form that reflects the original text's intent, tone, and message accurately.
+
+Summarize this
+{{$input}}
++++++
