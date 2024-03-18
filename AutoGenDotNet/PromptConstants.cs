@@ -149,7 +149,7 @@ public class PromptConstants
 
                                              ## Task Instructions
 
-                                             Start by creating tasks for an essay based on the topic from the user. Divide the essay into sections, each section should have a research task and a write task. Assign research and writing tasks until the essay is complete.
+                                             Start by creating tasks for an essay based on the topic from the user. Divide the essay into sections. Each section should have a research task and a write task. Assign research and writing tasks until the essay is complete.
                                              DO NOT write any section of the essay yourself. You are responsible for managing the workflow and ensuring that each section is fully researched and written before moving on to the next.
 
                                              ## Workflow
@@ -167,7 +167,7 @@ public class PromptConstants
                                              {
                                                  "to": "{agent_name}",
                                                  "task": "{a short description of the task}",
-                                                 "context": "{previous context from scratchpad}"
+                                                 "context": "{previous context from conversation history}"
                                              }
                                              ```
 

@@ -1,3 +1,20 @@
 ﻿@page "/formbuilder"
 <PageTitle>Essay Writer</PageTitle>
-<FormBuilder></FormBuilder>
+<RadzenSteps @bind-SelectedIndex=_step ShowStepsButtons=false>
+    <Steps>
+        <RadzenStepsItem>
+            <RadzenRow>
+                <RadzenColumn Size="8">
+                    <RadzenStack JustifyContent="JustifyContent.Center">
+                        <RadzenText TextAlign=TextAlign.Center Text="Round-Robin Chat" TextStyle="TextStyle.Subtitle1"></RadzenText>
+                        <RadzenButton Click="Next" Text="Start" Size="ButtonSize.Small"></RadzenButton>
+                    </RadzenStack>
+                    <RadzenImage Path="images/FormBuilderCircle.png"></RadzenImage>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenStepsItem>
+        <RadzenStepsItem>
+            <FormBuilder></FormBuilder>
+        </RadzenStepsItem>
+    </Steps>
+</RadzenSteps>
