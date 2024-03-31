@@ -23,6 +23,7 @@ using AutoGen.SemanticKernel;
 using Microsoft.Extensions.DependencyInjection;
 using Azure.AI.OpenAI;
 using AgentExample.SharedServices.Plugins.FormPlugin;
+using AgentExample.SharedServices.Plugins.CodingPlugin;
 
 namespace AutoGenDotNet;
 
@@ -170,14 +171,14 @@ public class AutoGenService
         if (!Directory.Exists(workDir))
             Directory.CreateDirectory(workDir);
 
-        var service = new InteractiveService(workDir);
-        var dotnetInteractiveFunctions = new DotnetInteractiveFunction(service);
+        //var service = new InteractiveService(workDir);
+        //var dotnetInteractiveFunctions = new DotnetInteractiveFunction(service);
 
-        var result = Path.Combine(workDir, "result.txt");
-        if (File.Exists(result))
-            File.Delete(result);
+        //var result = Path.Combine(workDir, "result.txt");
+        //if (File.Exists(result))
+        //    File.Delete(result);
 
-        await service.StartAsync(workDir, cancellationToken);
+        //await service.StartAsync(workDir, cancellationToken);
 
         // get OpenAI Key and create config
         var openAIKey = _configuration["OpenAI:ApiKey"] ?? throw new Exception("Please set OPENAI_API_KEY environment variable.");
@@ -208,7 +209,7 @@ public class AutoGenService
         var coderAgent = new InteractiveGptAgent(
             name: "coder",
             systemMessage: CoderSystemMessage,
-            llmConfig: OpenAiGptConfig.GetOpenAIGPT4(openAIKey), temp: 0.4f)
+            llmConfig: OpenAiGptConfig.GetOpenAIGPT3_5_Turbo(openAIKey), temp: 0.4f)
             .RegisterPrintFormatMessageHook().RegisterOutputMessageHook(SendMessage);
 
         // code reviewer agent will review if code block from coder's reply satisfy the following conditions:
@@ -220,23 +221,25 @@ public class AutoGenService
         var codeReviewAgent = new InteractiveGptAgent(
             name: "reviewer",
             systemMessage: ReviewerSystemMessage,
-            llmConfig: OpenAiGptConfig.GetOpenAIGPT4(openAIKey), temp: 0)
+            llmConfig: OpenAiGptConfig.GetOpenAIGPT3_5_Turbo(openAIKey), temp: 0)
             .RegisterPrintFormatMessageHook().RegisterOutputMessageHook(SendMessage);
+        
 
         // create runner agent
         // The runner agent will run the code block from coder's reply.
         // It runs dotnet code using dotnet interactive service hook.
         // It also truncate the output if the output is too long.
-        var runner = new InteractiveGptAgent(
-            name: "runner",
-            llmConfig: OpenAiGptConfig.GetOpenAIGPT4(openAIKey), temp: 0)
-            .RegisterDotnetCodeBlockExectionHook(interactiveService: service)
-            .RegisterMiddleware(async (msgs, option, agent, ct) =>
-            {
-                var mostRecentCoderMessage = msgs.LastOrDefault(x => x.From == "coder") ?? throw new Exception("No coder message found");
-                return await agent.GenerateReplyAsync([mostRecentCoderMessage], option, ct);
-            })
-            .RegisterPrintFormatMessageHook().RegisterOutputMessageHook(SendMessage);
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(TestConfiguration.OpenAI.ModelId, TestConfiguration.OpenAI.ApiKey).Build();
+        var scriptService = new ExecuteCodePlugin();
+        kernel.Plugins.AddFromObject(scriptService);
+        var settings = new OpenAIPromptExecutionSettings { ChatSystemPrompt = "Run the code block from coder's reply", ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions, Temperature = 0.4f };
+        var skAgent = kernel.ToSemanticKernelAgent("runner", "Compile and run the code block from coder's reply", settings);
+        var connector = new SemanticKernelChatMessageContentConnector();
+        var runner = skAgent.RegisterStreamingMiddleware(connector)
+            .RegisterMiddleware(connector)
+            .RegisterOutputMessageHook(SendMessage);
+       
         var transitionsByName = GetCodingTransitionsByName(admin, coderAgent, codeReviewAgent, runner, userProxy);
 
         var workflow = new Graph([.. transitionsByName.Values]);
@@ -295,13 +298,7 @@ public class AutoGenService
                  return new TextMessage(Role.Assistant, content, from: reply.From);
 
              });
-        //var externalResearch = new ExternalResearchFunctions(_bingWebSearchService);
-        //var researchAgent = new InteractiveGptAgent(name:"researcher",
-        //    systemMessage: "Use the available tools to search the web, youtube and Medium for information",
-        //    llmConfig: OpenAiGptConfig.GetOpenAIGPT3_5_Turbo(openAIKey),
-        //    temp: 0.4f,
-        //    functionDefinitions: [externalResearch.SearchAndCiteWebFunction, externalResearch.SearchAndCiteYoutubeFunction, externalResearch.ExtractWebSearchQueryFunction])
-        //    .RegisterOutputMessageHook(SendMessage); 
+        
         var builder = Kernel.CreateBuilder()
             .AddOpenAIChatCompletion(TestConfiguration.OpenAI.ModelId, TestConfiguration.OpenAI.ApiKey);
         builder.Services.AddBing();
@@ -351,7 +348,7 @@ public class AutoGenService
             .RegisterOutputMessageHook(SendMessage);
 
         var transitionsByName = GetWritingTransitionsByName2(admin, researchAgent, writerAgent, userProxy);
-        var workflow = new Workflow([.. transitionsByName.Values]);
+        var workflow = new Graph([.. transitionsByName.Values]);
 
         // create group chat
         var groupChat = new GroupChat(
@@ -380,8 +377,9 @@ public class AutoGenService
             ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
             Temperature = 0.1f,
             ChatSystemPrompt = """
-                               Use the tools available to save user information. Your response must always include all information already added to the form AND all information still missing.
-                               If all required information has beeen provided respond with "Application information is saved to database." and then stop.
+                               Save progress according to the most recent information provided by user using the tools available.
+                               Your response must always include all information already added to the form AND all information still missing.
+                               If all required information has beeen provided respond with "[ApplicationComplete]" and then stop.
                                """
         };
         kernel.FunctionInvoking += (sender, args) =>
@@ -407,7 +405,7 @@ public class AutoGenService
                 var prompt = $"""
                 Save progress according to the most recent information provided by user using the tools available.
                 Your response must always include all information already added to the form AND all information still missing.
-                If all required information has beeen provided respond with "Application information is saved to database." and then stop.
+                If all required information has beeen provided respond with "[ApplicationComplete]" and then stop.
                 ```user
                 {lastUserMessage.GetContent()}
                 ```
@@ -504,19 +502,7 @@ public class AutoGenService
         OnConversationComplete?.Invoke($"## Conversation complete\n\n{summaryBuilder}");
 
     }
-    private static Dictionary<string, Transition> GetWritingTransitionsByName(IAgent admin, IAgent researcher, IAgent writer, IAgent user)
-    {
-        var transitionsByName = new Dictionary<string, Transition>
-        {
-            ["adminToResearcher"] = Transition.Create(admin, researcher),
-            ["researcherToWriter"] = Transition.Create(researcher, writer),
-            ["adminToWriter"] = Transition.Create(admin, writer),
-            ["writerToAdmin"] = Transition.Create(writer, admin),
-            ["adminToUser"] = Transition.Create(admin, user),
-            ["userToAdmin"] = Transition.Create(user, admin)
-        };
-        return transitionsByName;
-    }
+    
     private static Dictionary<string, Transition> GetWritingTransitionsByName2(IAgent admin, IAgent researcher, IAgent writer, IAgent user)
     {
         var transitionsByName = new Dictionary<string, Transition>
@@ -538,6 +524,11 @@ public class AutoGenService
             // Each task starts here
             ["adminToCoder"] = Transition.Create(admin, coderAgent, async (from, to, messages) =>
             {
+                // Don't Skip the runner!
+                var last3Message = messages.TakeLast(3);
+                var hasRunner = last3Message.Any(x => x.From == "runner");
+                var hasCoder = last3Message.Any(x => x.From == "coder");
+                if (hasCoder && !hasRunner) return false;
                 // the last message should be from admin
                 var lastMessage = messages.Last();
                 if (lastMessage.From != admin.Name)
@@ -570,6 +561,10 @@ public class AutoGenService
             ["reviewerToAdmin"] = Transition.Create(codeReviewAgent, admin),
             ["adminToUser"] = Transition.Create(admin, userProxy, async (from, to, messages) =>
             {
+                // Don't skip runner!
+                var last3Message = messages;
+                var hasRunner = last3Message.Any(x => x.From == "runner");
+                if (!hasRunner) return false;
                 // the last message should be from admin
                 var lastMessage = messages.Last();
                 if (lastMessage.From != admin.Name)

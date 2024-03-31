@@ -31,7 +31,7 @@ public static class AgentExtension
         return agent.RegisterReply(async (msgs, ct) =>
         {
             var lastMessage = msgs.LastOrDefault();
-            if (lastMessage == null || lastMessage.GetContent() is null)
+            if (lastMessage?.GetContent() is null)
             {
                 return null;
             }
@@ -65,6 +65,65 @@ public static class AgentExtension
                 }
 
                 var codeResult = await interactiveService.SubmitCSharpCodeAsync(code, ct);
+                if (codeResult != null)
+                {
+                    result.AppendLine(@$"### Executing result for code block {i++}");
+                    result.AppendLine(codeResult);
+                    result.AppendLine("### End of executing result ###");
+                }
+            }
+            if (result.Length <= maximumOutputToKeep)
+            {
+                maximumOutputToKeep = result.Length;
+            }
+
+            return new TextMessage(Role.Assistant, result.ToString().Substring(0, maximumOutputToKeep), from: agent.Name);
+        });
+    }
+    public static IAgent RegisterDotnetCodeBlockExectionHook(
+        this IAgent agent,
+        ScriptService interactiveService,
+        string codeBlockPrefix = "```csharp",
+        string codeBlockSuffix = "```",
+        int maximumOutputToKeep = 500)
+    {
+        return agent.RegisterReply(async (msgs, ct) =>
+        {
+            var lastMessage = msgs.LastOrDefault();
+            if (lastMessage?.GetContent() is null)
+            {
+                return null;
+            }
+
+            // retrieve all code blocks from last message
+            var codeBlocks = lastMessage.GetContent()!.Split(new[] { codeBlockPrefix }, StringSplitOptions.RemoveEmptyEntries);
+            if (codeBlocks.Length <= 0)
+            {
+                return null;
+            }
+
+            // run code blocks
+            var result = new StringBuilder();
+            var i = 0;
+            result.AppendLine(@$"// [DOTNET_CODE_BLOCK_EXECUTION]");
+            foreach (var codeBlock in codeBlocks)
+            {
+                var codeBlockIndex = codeBlock.IndexOf(codeBlockSuffix);
+
+                if (codeBlockIndex == -1)
+                {
+                    continue;
+                }
+
+                // remove code block suffix
+                var code = codeBlock.Substring(0, codeBlockIndex).Trim();
+
+                if (code.Length == 0)
+                {
+                    continue;
+                }
+
+                var codeResult = await interactiveService.CompileAndEval(code, ct);
                 if (codeResult != null)
                 {
                     result.AppendLine(@$"### Executing result for code block {i++}");

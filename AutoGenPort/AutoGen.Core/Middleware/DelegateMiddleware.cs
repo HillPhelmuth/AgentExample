@@ -23,10 +23,7 @@ internal class DelegateMiddleware : IMiddleware
     public DelegateMiddleware(string? name, Func<MiddlewareContext, IAgent, CancellationToken, Task<IMessage>> middlewareDelegate)
     {
         this.Name = name;
-        this.middlewareDelegate = async (context, agent, cancellationToken) =>
-        {
-            return await middlewareDelegate(context, agent, cancellationToken);
-        };
+        this.middlewareDelegate = (context, agent, cancellationToken) => middlewareDelegate(context, agent, cancellationToken);
     }
 
     public string? Name { get; }

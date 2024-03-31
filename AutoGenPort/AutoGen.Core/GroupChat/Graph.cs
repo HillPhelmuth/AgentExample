@@ -96,7 +96,11 @@ public class Transition
     {
         return new Transition(from, to, (fromAgent, toAgent, messages) => canTransitionAsync?.Invoke((TFromAgent)fromAgent, (TToAgent)toAgent, messages) ?? Task.FromResult(true));
     }
-
+    public static Transition Create(IAgent from, IAgent to, Func<IAgent, IAgent, IEnumerable<IMessage>, Task<bool>>? canTransitionAsync = null)
+    {
+        return new Transition(from, to, canTransitionAsync);
+    }
+       
     public IAgent From => _from;
 
     public IAgent To => _to;

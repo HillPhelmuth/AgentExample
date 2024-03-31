@@ -88,14 +88,14 @@ public class GroupChat : IGroupChat
         {
             var nextAvailableAgents = await this.workflow.TransitToNextAvailableAgentsAsync(currentSpeaker, conversationHistory);
             agentNames = nextAvailableAgents.Select(x => x.Name).ToList();
-            if (agentNames.Count() == 0)
+            if (!agentNames.Any())
             {
-                throw new Exception("No next available agents found in the current workflow");
+                return await RolePlaySelectNextSpeaker(conversationHistory, agents.Select(x => x.Name).ToList());
             }
 
             if (agentNames.Count() == 1)
             {
-                return this.agents.FirstOrDefault(x => x.Name == agentNames.First());
+                return this.agents.FirstOrDefault(x => x.Name == agentNames.First())!;
             }
         }
 
@@ -104,6 +104,11 @@ public class GroupChat : IGroupChat
             throw new Exception("No admin is provided.");
         }
 
+        return await RolePlaySelectNextSpeaker(conversationHistory, agentNames);
+    }
+
+    private async Task<IAgent> RolePlaySelectNextSpeaker(IEnumerable<IMessage> conversationHistory, List<string> agentNames)
+    {
         var systemMessage = new TextMessage(Role.System,
             content: $$"""
                        You are in a role play game. Carefully read the conversation history and carry on the conversation, always starting with 'From {name}:'.

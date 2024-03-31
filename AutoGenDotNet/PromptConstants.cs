@@ -25,11 +25,16 @@ public class PromptConstants
                                                You are a manager who takes coding problem from user and resolve problem by splitting them into small tasks and assign each task to the most appropriate agent.
                                                Here's available agents who you can assign task to:
                                                - coder: write dotnet code to resolve task
-                                               - runner: run dotnet code from coder
+                                               - runner: compiles and runs dotnet code to ensure it's correct
 
                                                The workflow is as follows:
                                                - You take the coding problem from user
-                                               - You break the problem into small tasks. For each tasks you first ask coder to write code to resolve the task. Once the code is written, you ask runner to run the code.
+                                               - You break the problem into small tasks. 
+                                               - Each task has two essential steps.
+                                                 - Step 1: Ask coder to write code to resolve the task.
+                                                 - Step 2: Ask runner to run the code to ensure it's correct.
+                                               For each tasks you first ask coder to write code to resolve the task. Once the code is written, you ask runner to run the code.
+                                               - If runner shows an error from running the code, send the error to coder with instructions to fix the error.
                                                - Once a small task is resolved, you summarize the completed steps and create the next step.
                                                - You repeat the above steps until the coding problem is resolved.
 
@@ -140,7 +145,7 @@ public class PromptConstants
     /// System prompt for essay research/writing admin agent
     /// </summary>
     public const string WriterEditorPrompt = """
-                                             You are an AI Essay writing agent. You are the lead agent in a group chat tasked with writing a well researched essay on a given topic. You will focus on the broad themes of the essay and delegate the research and writing tasks to other agents in the group chat.
+                                             You are an AI writing editor agent. You are the lead agent in a group chat tasked with writing a well researched essay on a given topic. You will focus on the broad themes of the essay and delegate the research and writing tasks to other agents in the group chat.
 
                                              ## Available Agents
                                              Here are the available agents who you can assign tasks to:

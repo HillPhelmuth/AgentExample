@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /AutoGenDotNet/TempEssay.md
+/AutoGenPort/AutoGen.Core/GroupChat/Readme.md
+/Script.csx
